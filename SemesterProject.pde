@@ -32,7 +32,6 @@ void manPix() {
   loadPixels();
   mov.loadPixels();
 
-  //int loc = x+y*width;
   //cycle through pixels
   for (int y=0; y < mov.height; y++) {
     for (int x=0; x < mov.width; x++) {
@@ -42,9 +41,11 @@ void manPix() {
       int loc = x+y*width; 
       x=loc % mov.width;  //get xpos
       y=loc /mov.width;  //get ypos
+      float redVal = red(pc);  //reads red value!
 
-      if (pc==-13649151) { //what color is black?
-        println(x, "x", y, "y");
+//println(redVal);
+      if (redVal==157.0) { //
+       // println(x, "x", y, "y");
         //fill(255);
         blckPixels.add(new PVector(x, y));
         println(blckPixels.size());
