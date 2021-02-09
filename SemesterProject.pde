@@ -1,27 +1,61 @@
-import processing.video.*;
-Capture cam;
 //Natasha Schmid CRCP 4391
 //Semester Project
 //camera setup from processing tutorial
 //https://processing.org/tutorials/video/
-void setup(){
-  size(400,500);  //setup screen
-  cam=new Capture(this, displayWidth, displayHeight,30); //currently just linked to webcam
-  cam.start();  //start camera
-}
-void captureEvent(Capture cam) {
- cam.read(); //reading from camera
+
+import processing.video.*;
+Movie mov;
+static final String movFile = "rdj.mov";
+ArrayList blckPixels;
+
+void setup() {
+  size(640, 360);
+
+  mov = new Movie(this, movFile);
+  mov.play();
+  blckPixels=new ArrayList();
 }
 
-void draw(){
-  image(cam,0,0);  //displaying cameta
-  
-  //manipulate video
-  //make letter forms
-  //if pixel isnt white, manipulate to form letter
-  //typeface: helvetica
-  //how can i make letterforms
-  //need to be able to get equation of letterforms
-  
- 
+void movieEvent(Movie mov) {
+  mov.read();
+}
+
+void draw() {  
+  //background(0);
+  if (frameCount % 60 == 0) {
+    image(mov, 0, 0);
+    manPix();
+  }
+}
+
+void manPix() {
+  loadPixels();
+  mov.loadPixels();
+
+  //int loc = x+y*width;
+  //cycle through pixels
+  for (int y=0; y < mov.height; y++) {
+    for (int x=0; x < mov.width; x++) {
+      color pc=mov.get(x, y);  //look at color of pixels
+
+      //get all pixels 
+      int loc = x+y*width; 
+      x=loc % mov.width;  //get xpos
+      y=loc /mov.width;  //get ypos
+
+      if (pc==-13649151) { //what color is black?
+        println(x, "x", y, "y");
+        //fill(255);
+        blckPixels.add(new PVector(x, y));
+        println(blckPixels.size());
+        //circle(x,y,10);
+        //println(loc);
+      }
+
+      //for color value this
+      //get location of pixel. 
+      //save as xpov,ypoc
+      //draw circle there
+    }
+  }
 }
