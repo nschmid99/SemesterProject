@@ -7,12 +7,42 @@ import processing.video.*;    //processing video library
 Movie mov;  //create movie object
 static final String movFile = "rdj.mov";  //video file located in the data folder
 ArrayList bPixels;  //arraylist to store pixels
+PImage mask;
+int[] pixels;
+PVector location;
+int PSIZE = 4;
+int nmbrParticles = 100;
+int x;
+int y;
+Particle particles[] = new Particle[nmbrParticles];
+
 
 void setup() {
   size(640, 360);  //size of video clip
   mov = new Movie(this, movFile);  //instantiate movie
   mov.play();  //play movie
   bPixels=new ArrayList();  //create array list
+  mask = loadImage("Acopy.jpeg");  //creates a mask from the image
+  
+}
+
+void drawParticles(int nbrParts, PImage m){
+  
+  m.loadPixels();  //loads the pixels from the image
+  fill(255,0,0);  //currently just making them red so its easier to see
+  
+  for(int i=0;i<300;i++){  //currently just a random value. will be replaced with something else
+  x = (int)random(m.width);  //pick a random part inside mask
+  y = (int) random(m.height); //pick a random part inside mask
+  
+if(red(m.get(x,y))>128){  //if its not white
+
+  point(x,y);  // draw a point
+  nbrParts--;
+  
+  }
+  if(nbrParts<=0) break;  //break the for loop
+  }
 }
 
 
@@ -20,9 +50,12 @@ void movieEvent(Movie mov) {
   mov.read();  //reads the frame
 }
 
+
+
 void draw() {  
-    image(mov, 0, 0);
-    manipPix();
+    image(mov, 0, 0);  //draws the video
+   
+    manipPix();  //manipulates pixels
 }
 
 void manipPix() {
@@ -50,25 +83,17 @@ void manipPix() {
         bPixels.add(pixVect);  //save the vector in the arraylist
         println(bPixels.size());  //check to make sure there are values
 
-        if (bPixels.size() <70){  //make sure array list doesn't get too large
-          for (int j=1; j<bPixels.size(); j++) {  //cycle through  array list
-
-            PVector curPt = (PVector)bPixels.get(j);  //current pixel that met the reqs
-            PVector prevPt = (PVector)bPixels.get(j-1); //prev pixel that met the reqs
-            float xCurP = curPt.x;  //x val of current pixel
-            float yCurP = curPt.y;  //y val of current pixel
-            float xPrevP = prevPt.x;  //x val of previous pixel
-            float yPrevP = prevPt.y;  //y val of previous pixel
-            strokeWeight(8);  //make the line thicker
-            stroke(pc/j);  //changing the color purely so its easier to see in this prototype
-            line(xCurP, yCurP, xPrevP, yPrevP);  //draw lines between current and previous pixels
-          }
+        if (bPixels.size() <70){  //make sure array list doesn't get too large. currently random but will change
+         for (int j=1; j<bPixels.size(); j++) {  //cycle through  array list
+             drawParticles(1000,mask);  //draws the mask
+            
          
+        }
         }
         else{
           bPixels.clear();  //clear arraylist when it gets too big
         }
       }
-    }
+      }
   }
 }
