@@ -7,14 +7,13 @@ import processing.video.*;    //processing video library
 Movie mov;  //create movie object
 static final String movFile = "rdj.mov";  //video file located in the data folder
 ArrayList bPixels;  //arraylist to store pixels
-PImage mask;
-int[] pixels;
-PVector location;
-int PSIZE = 4;
-int nmbrParticles = 100;
+PImage mask;  //letter file being used in mask
+PVector position;  //not used
+PVector vel;  //not used
 int x;
 int y;
-Particle particles[] = new Particle[nmbrParticles];
+
+
 
 
 void setup() {
@@ -23,13 +22,20 @@ void setup() {
   mov.play();  //play movie
   bPixels=new ArrayList();  //create array list
   mask = loadImage("Acopy.jpeg");  //creates a mask from the image
-  
+ // vel=new PVector(0, 0); not yet used
+ // position = new PVector(0,0); not yet used
+}
+
+
+void draw() {  
+    image(mov, 0, 0);  //draws the video 
+    manipPix();  //manipulates pixels
 }
 
 void drawParticles(int nbrParts, PImage m){
   
   m.loadPixels();  //loads the pixels from the image
-  fill(255,0,0);  //currently just making them red so its easier to see
+
   
   for(int i=0;i<300;i++){  //currently just a random value. will be replaced with something else
   x = (int)random(m.width);  //pick a random part inside mask
@@ -37,8 +43,16 @@ void drawParticles(int nbrParts, PImage m){
   
 if(red(m.get(x,y))>128){  //if its not white
 
-  point(x,y);  // draw a point
-  nbrParts--;
+ 
+  //to be implemented later when adding in flowfield
+  //float direction = noise(x/10, y/10)*TWO_PI;
+  // vel.x=sin(direction)*0.5;
+  // vel.y=cos(direction)*0.5;
+  //  x=x+=vel.x;
+  //  y=y+=vel.y;
+  
+  //draws the points
+    point(x,y);  
   
   }
   if(nbrParts<=0) break;  //break the for loop
@@ -52,11 +66,6 @@ void movieEvent(Movie mov) {
 
 
 
-void draw() {  
-    image(mov, 0, 0);  //draws the video
-   
-    manipPix();  //manipulates pixels
-}
 
 void manipPix() {
   loadPixels();  //load pixels
@@ -85,8 +94,9 @@ void manipPix() {
 
         if (bPixels.size() <70){  //make sure array list doesn't get too large. currently random but will change
          for (int j=1; j<bPixels.size(); j++) {  //cycle through  array list
+         
              drawParticles(1000,mask);  //draws the mask
-            
+         
          
         }
         }
