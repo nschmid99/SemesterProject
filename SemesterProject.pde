@@ -2,108 +2,157 @@
 //Semester Project
 //camera setup from processing tutorial
 //https://processing.org/tutorials/video/
-
+import geomerative.*;
 import processing.video.*;    //processing video library
-Movie mov;  //create movie object
+//Movie dance;  //create movie object
 static final String movFile = "rdj.mov";  //video file located in the data folder
 ArrayList bPixels;  //arraylist to store pixels
 PImage mask;  //letter file being used in mask
+PImage dance;
 PVector position;  //not used
 PVector vel;  //not used
+ArrayList <Particle> particles= new ArrayList <Particle>();
 int x;
 int y;
+float globalRotation;
+RFont f;
+RShape grp;
+RPoint[] points;
 
-
+  boolean ignoringStyles = false;
 
 
 void setup() {
   size(640, 360);  //size of video clip
-  mov = new Movie(this, movFile);  //instantiate movie
-  mov.play();  //play movie
-  bPixels=new ArrayList();  //create array list
-  mask = loadImage("Acopy.jpeg");  //creates a mask from the image
+  //dance = new Movie(this, movFile);  //instantiate movie
+  //dance.play();  //play movie
+  //bPixels=new ArrayList();  //create array list
+  //frameRate(4);
+  //dance.speed(0.25);
+  dance = loadImage("dance.PNG");  //creates a mask from the image
  // vel=new PVector(0, 0); not yet used
- // position = new PVector(0,0); not yet used
+ // position = new PVector(0,0); //not yet used
+  //VERY IMPORTANT: Allways initialize the library in the setup
+  stroke(0);
+  RG.init(this);
+
+    RG.ignoreStyles(ignoringStyles);
+  //  Load the font file we want to use (the file must be in the data folder in the sketch floder), with the size 60 and the alignment CENTER
+  grp = RG.getText("Hello!", "Catalina Rayden.ttf", 150, CENTER);
+    RG.setPolygonizer(RG.ADAPTATIVE);
+     RG.setPolygonizer(RG.UNIFORMSTEP);
+  RG.setPolygonizerStep(2); //allows for more
+  
+  RG.setPolygonizer(RG.UNIFORMLENGTH);
+ // RG.setPolygonizerLength(map(3, 0, height, 3, 200));
+  RG.setPolygonizerLength(10); //makes loger
+  points = grp.getPoints();  //gets points
+
+  // Enable smoothing
+  smooth();
 }
 
 
 void draw() {  
-    image(mov, 0, 0);  //draws the video 
-    manipPix();  //manipulates pixels
-}
-
-void drawParticles(int nbrParts, PImage m){
+    //draws the video 
+    //manipPix();  //manipulates pixels
+    
   
-  m.loadPixels();  //loads the pixels from the image
-
+  //image(mov, 0, 0);
+  //  mov.loadPixels();
+  image(dance,0,0);
+ dance.loadPixels();
+    
+    pushMatrix();
+    translate(width/2, 3*height/4);
   
-  for(int i=0;i<300;i++){  //currently just a random value. will be replaced with something else
-  x = (int)random(m.width);  //pick a random part inside mask
-  y = (int) random(m.height); //pick a random part inside mask
-  
-if(red(m.get(x,y))>128){  //if its not white
-
+  //// Draw the group of shapes
+  //noFill();
+  stroke(0);
+ noFill();
+  grp.draw();
+popMatrix();
+  //// Get the points on the curve's shape
  
-  //to be implemented later when adding in flowfield
-  //float direction = noise(x/10, y/10)*TWO_PI;
-  // vel.x=sin(direction)*0.5;
-  // vel.y=cos(direction)*0.5;
-  //  x=x+=vel.x;
-  //  y=y+=vel.y;
   
-  //draws the points
-    point(x,y);  
+  //// If there are any points
+ if(points != null){
   
-  }
-  if(nbrParts<=0) break;  //break the for loop
-  }
-}
-
-
-void movieEvent(Movie mov) {
-  mov.read();  //reads the frame
-}
-
-
-
-
-void manipPix() {
-  loadPixels();  //load pixels
-  mov.loadPixels();  //load pixels of the movie
-
-  //cycle through pixels of movie
-  for (int y=0; y < mov.height; y++) {
-    for (int x=0; x < mov.width; x++) {
+  
+    for(int i=0;i<dance.width;i=i+8){
+    for(int j=0;j<dance.height;j=j+8){
       
+    int loc = i+j*width; //get the position of a pixel
+      int x=loc % dance.width;  //get xpos
+      int y=loc / dance.width;
+      color c=get(x,y);
+    
+      RPoint temp = new RPoint(x-width/2,y-3*height/4); //temp point at position of text
+   
+          for(int q=0;q<grp.countChildren();q++){
+    if(grp.children[q].contains(temp)){  //if position is inside text
+    //println("inside");
+     RG.ignoreStyles(true);
+     //grp.setFill(c);
+     stroke(0);
+    // noFill();
      
+      fill(c);  //make the color of the image pixel
+     // ellipse(x,y,7,7);
+ 
+     position=new PVector(x,y);  // create particles
 
-      //get position of all pixels 
-      int loc = x+y*width; //get the position of a pixel
-      x=loc % mov.width;  //get xpos
-      y=loc / mov.width;  //get ypos
+       addRemoveParticles();
+  //}
+    for (Particle p : particles) {
+   p.update();
+   p.display(1);}
       
-      color pc=mov.get(x, y);  //look at color of pixels at that position
+     grp.children[q].draw();
+       RG.ignoreStyles(ignoringStyles);
+    }
+    else{
+       // println("outside");
       
-      float redVal = red(pc);  //reads red value from hex code
-      float greenVal = green(pc);//reads green value from hex code
+      
+      
+    //  // grp.children[q].draw();
+    //  // RG.ignoreStyles(ignoringStyles);
+    }
+  }
 
-      if (redVal==157.0 && greenVal==155.0) { //just a test so chose color as a parameter
-        PVector pixVect=new PVector(x, y);  //put the x and y in a pvector
-        bPixels.add(pixVect);  //save the vector in the arraylist
-        println(bPixels.size());  //check to make sure there are values
 
-        if (bPixels.size() <70){  //make sure array list doesn't get too large. currently random but will change
-         for (int j=1; j<bPixels.size(); j++) {  //cycle through  array list
-         
-             drawParticles(1000,mask);  //draws the mask
-         
-         
-        }
-        }
-        else{
-          bPixels.clear();  //clear arraylist when it gets too big
-        }
       }
-      }
+      
+    }
+    }
+     //updatePixels();
+     //dance.updatePixels();
+  }
+ // }  
+  
+  // mov.updatePixels();
+//}
+
+
+
+
+//void movieEvent(Movie mov) {
+//  mov.read();  //reads the frame
+//}
+
+void addRemoveParticles() {
+  // remove particles with no life left
+  for (int i=particles.size()-1; i>=0; i--) {
+    Particle p = particles.get(i);
+    if (p.life <= 0) {
+      particles.remove(i);
+     // println("removed");
+    }
+  }
+  // add particles until the maximum
+  while (particles.size () < 200) {
+    particles.add(new Particle(position));
+    //p.update();
   }
 }
