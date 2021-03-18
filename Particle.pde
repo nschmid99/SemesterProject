@@ -1,12 +1,14 @@
 
 class Particle {
   PVector vel, position;
-  float noiseScale=150;
+  float noiseScale=300;
   float life;
   float rate;
+
   
   Particle(PVector replaced){
   this.position=replaced;
+ // getPosition();
   this.vel= new PVector(0,0);
   life = random(0.5,1.5);
   rate=random(0.01,0.02);
@@ -14,23 +16,24 @@ class Particle {
   
   void display(float r){
   
-   //boolean special = random(1) < 0.001;
-    strokeWeight(0.04);
-    //stroke(255, special ? random(175, 255) : 65);
-   // stroke(0,0,0,30);
-    noStroke();
-    ellipse(position.x, position.y,r,r);
+  
+    point(position.x,position.y);
+   
+   //ellipse(position.x, position.y,r,r);
   }
   
-  
+  //MSAfluid pixelflow
   
   void update() {
-    float direction = noise((position.x)/noiseScale, position.y/noiseScale)*TWO_PI;
-    PVector vel = PVector.fromAngle(direction + globalRotation);
-    vel.mult(0.5);
-    
-    position.add(vel);
-    life -= life;
-  
-  
-}}
+    float direction = noise((position.x)/noiseScale, position.y/noiseScale)*TWO_PI; //use noise to randomize but control pixels
+    PVector vel = PVector.fromAngle(direction + rotation);  //rotation is random and pulled from main class
+ 
+    position.add(vel);  //add position and veloccity vectors together
+    life -= rate; 
+}
+
+//not being used anymore since getting position from pixels
+//void getPosition(){
+//while(position==null) position = new PVector(random(width),random(height));
+//}
+}
