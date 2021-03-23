@@ -1,11 +1,25 @@
+import spout.*;
+
 //Natasha Schmid CRCP 4391
 //Semester Project
 //camera setup from processing tutorial
 //https://processing.org/tutorials/video/
 
+
 import geomerative.*;
 //import processing.video.*;    //processing video library
 
+Spout spout;
+
+int resX=16;
+int resY=4;
+
+PImage data;
+
+
+//int resx=
+int row;
+int pixel_index;
 PImage dance;
 PVector position;  //not used
 PVector vel;  //not used
@@ -23,6 +37,11 @@ boolean ignoringStyles = false;
 
 void setup() {
   size(600, 459);  //size of video clip
+  //for spout
+  size(16,4,P2D);
+  spout=new Spout(this);
+  
+  spout.createSender("SpoutProces");
   dance = loadImage("dance.PNG");  //creates a mask from the image
   stroke(0);
 
@@ -48,7 +67,14 @@ void setup() {
 
 void draw() {  
 
+//init  spout texture
+data=createImage(resX,resY,ARGB);
+data.loadPixels();
+//need to create image only from certain parts of the actual image.
 
+
+//then send to touchdesigner
+spout.sendTexture(dance);
   pushMatrix();
   translate(width/2, 3*height/4); //translating to screen
   noFill();
@@ -99,13 +125,20 @@ void draw() {
 
   updatePixels();
   dance.updatePixels();
+  //data will  draw
 }
 
 void boundarycheck() {
   //code here for boundary checking
 }
 
+void exit(){
+super.exit();
+}
 
+void stop(){
+super.stop();
+}
 
 
 void addRemoveParticles() {
