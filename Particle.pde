@@ -1,39 +1,59 @@
 
 class Particle {
-  PVector vel, position;
-  float noiseScale=300;
-  float life;
-  float rate;
+  float x;
+  float y;
+  PVector vel;
+  PVector position;
+  float size;
+  float leng;
+  float sp;
+  float max;
+  float ns;
+  float count;
 
-  
-  Particle(PVector replaced){
-  this.position=replaced;
- // getPosition();
-  this.vel= new PVector(0,0);
-  life = random(0.5,1.5);
-  rate=random(0.01,0.02);
+  Particle() {
+    //this.position=pos;
+    this.init();
+    ns=800;
+    this.sp=300/ns;
+    float leng=random(10, 30);
+    this.max=leng/this.sp;
+
   }
-  
-  void display(float r){
-  
-  
-    point(position.x,position.y);
-   
-   //ellipse(position.x, position.y,r,r);
+  void init() {
+    this.position=new PVector(random(width), random(height));
+    this.count=0;
   }
-  
-  //MSAfluid pixelflow
-  
+
+  void display() {
+    noStroke();
+    color c = dance.get((int)(dance.width/ 2 + this.position.x - width/2), (int)(dance.height /2 + this.position.y - height/2));
+    fill(c);
+    contains();
+    ellipse(this.position.x, this.position.y, 2, 5);
+  }
+
   void update() {
-    float direction = noise((position.x)/noiseScale, position.y/noiseScale)*TWO_PI; //use noise to randomize but control pixels
-    PVector vel = PVector.fromAngle(direction + rotation);  //rotation is random and pulled from main class
- 
-    position.add(vel);  //add position and veloccity vectors together
-    life -= rate; 
-}
 
-//not being used anymore since getting position from pixels
-//void getPosition(){
-//while(position==null) position = new PVector(random(width),random(height));
-//}
+    contains();
+    float ang=noise(position.x/ns, position.y/ns) *TWO_PI * ns;
+    PVector vel=new PVector(cos(ang), sin(ang));
+    position.add(vel);
+    this.count++;
+    if (this.count>this.max) this.init();
+  }
+
+  void contains() {  //have to check for if the point is in the text
+
+    if (points != null) {  //if points exist
+      //temp point at position of text 
+      RPoint temp = new RPoint(this.position.x-width/2, this.position.y-3*height/4);
+      for (int q=0; q<grp.countChildren(); q++) {  //count children insisde text
+        //println();
+        if (grp.children[q].contains(temp)) {
+          fill(255);
+        }
+      }
+    }
+  }
 }
