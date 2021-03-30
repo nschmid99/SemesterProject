@@ -27,7 +27,7 @@ class Particle {
 
   void display() {
     noStroke();
-    color c = dance.get((int)(dance.width/ 2 + this.position.x - width/2), (int)(dance.height /2 + this.position.y - height/2));
+    color c = dance2.get((int)(dance2.width/ 2 + this.position.x - width/2), (int)(dance2.height /2 + this.position.y - height/2));
     fill(c);
     contains();
     ellipse(this.position.x, this.position.y, 2, 5);
@@ -55,5 +55,10 @@ class Particle {
         }
       }
     }
+  }
+  
+  void directflow(){
+  //direct particles to flow from one screen to the next
+  
   }
 }

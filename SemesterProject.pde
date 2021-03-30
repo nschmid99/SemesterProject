@@ -6,10 +6,13 @@
 
 
 import geomerative.*;
-//import processing.video.*;    //processing video library
+import processing.video.*;    //processing video library
 
-
+Movie mov;
 PImage dance;
+PImage dance2;
+PImage dance3;
+PImage dance4;
 PVector position;  //not used
 PVector vel;  //not used
 //ArrayList <Particle> particles= new ArrayList <Particle>();
@@ -26,9 +29,12 @@ boolean ignoringStyles = false;
 
 void setup() {
   size(486, 398);  //size of video clip
-
+//fullScreen();
   dance = loadImage("dance.PNG");  //creates a mask from the image
   stroke(0);
+  //frameRate();
+  mov=new Movie(this,"dance2.mov");
+  mov.play();
   for (int m=0; m<500; m++) {
     par[m]=new Particle();
   }
@@ -47,13 +53,20 @@ void setup() {
   rotation=random(TWO_PI);
   // Enable smoothing
   smooth();
-  image(dance, 0, 0);
+ // image(dance, 0, 0);
+ if(dance2!=null){
+image(dance2,0,0);}
   background(255);
   //dance.loadPixels();
 }
 
-
+void movieEvent(Movie m){
+mov.read();
+dance2=m;
+}
 void draw() {  
+if(dance2!=null){
+//image(dance2,0,0);
 
   //not sure if i will draw the image or not
   pushMatrix();  
@@ -68,4 +81,5 @@ void draw() {
     par[m].update();
     par[m].display();
   }
+}
 }
