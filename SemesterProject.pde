@@ -1,25 +1,32 @@
 
 //Natasha Schmid CRCP 4391
-//Semester Project
+//Semester Final Project
+//taking dance imagery and manipulating pixels so that they create letterforms
 //camera setup from processing tutorial
 //https://processing.org/tutorials/video/
 
 
 import geomerative.*;
-import processing.video.*;    //processing video library
+//import processing.video.*;    //processing video library
 
-Movie mov;
+//Movie mov;
 PImage dance;
-PImage dance2;
-PImage dance3;
-PImage dance4;
-PVector position;  //not used
-PVector vel;  //not used
-//ArrayList <Particle> particles= new ArrayList <Particle>();
-Particle [] par=new Particle[500];
+
+
+Particle [] par=new Particle[1400];
 float rotation;
 RFont f;
 RShape grp;
+RShape grpo;
+RShape grpu;
+RShape grpn;
+RShape grpd;
+RShape grpl;
+RShape grpe;
+RShape grps;
+RShape grpss;
+int posShape=350;
+int maxPar=1400;
 //RShape grmo; not being used
 RPoint[] points;
 float[] tempP;
@@ -28,58 +35,64 @@ boolean ignoringStyles = false;
 
 
 void setup() {
-  size(486, 398);  //size of video clip
-//fullScreen();
-  dance = loadImage("dance.PNG");  //creates a mask from the image
+
+  fullScreen();
+  dance = loadImage("collage.jpg");  //creates image
   stroke(0);
-  //frameRate();
-  mov=new Movie(this,"dance2.mov");
-  mov.play();
-  for (int m=0; m<500; m++) {
+
+  //setup particles
+  for (int m=0; m<maxPar; m++) {
     par[m]=new Particle();
   }
+
+  //init geomerative objects
   RG.init(this);
 
+  //uses processing function not geomerative
   RG.ignoreStyles(ignoringStyles);
-  grp = RG.getText("H", "Catalina Rayden.ttf", 350, CENTER);
+
+  //setup of all letters into objects, needs to  be reduced
+  grp = RG.getText("B", "Catalina Rayden.ttf", posShape, CENTER);
+  grpo = RG.getText("O", "Catalina Rayden.ttf", posShape, CENTER);
+  grpu = RG.getText("U", "Catalina Rayden.ttf", posShape, CENTER);
+  grpn = RG.getText("N", "Catalina Rayden.ttf", posShape, CENTER);
+  grpd = RG.getText("D", "Catalina Rayden.ttf", posShape, CENTER);
+  grpl = RG.getText("L", "Catalina Rayden.ttf", posShape, CENTER);
+  grpe = RG.getText("E", "Catalina Rayden.ttf", posShape, CENTER);
+  grps = RG.getText("S", "Catalina Rayden.ttf", posShape, CENTER);
+  grpss = RG.getText("S", "Catalina Rayden.ttf", posShape, CENTER);
+  RG.shape(grp, width/10, height/2, posShape, posShape);
+  RG.shape(grpo, width*3/10, height/2, posShape, posShape);
+  RG.shape(grpu, width*5/10, height/2, posShape, posShape);
+  RG.shape(grpn, width*7/10, height/2, posShape, posShape);
+  RG.shape(grpd, width*9/10, height/2, posShape, posShape);
+  RG.shape(grpl, width*2/10, height*3/4, posShape, posShape);
+  RG.shape(grpe, width*4/10, height*3/4, posShape, posShape);
+  RG.shape(grps, width*6/10, height*3/4, posShape, posShape);
+  RG.shape(grps, width*8/10, height*3/4, posShape, posShape);
+
 
   RG.setPolygonizer(RG.ADAPTATIVE);
   RG.setPolygonizer(RG.UNIFORMSTEP);
-  RG.setPolygonizerStep(2); //allows for more
+  RG.setPolygonizerStep(2); //allows for more lenngth
 
   RG.setPolygonizer(RG.UNIFORMLENGTH);
   RG.setPolygonizerLength(10); //makes loger
   points = grp.getPoints();  //gets points
-  rotation=random(TWO_PI);
+
   // Enable smoothing
   smooth();
- // image(dance, 0, 0);
- if(dance2!=null){
-image(dance2,0,0);}
+
+  //clear background
   background(255);
-  //dance.loadPixels();
 }
 
-void movieEvent(Movie m){
-mov.read();
-dance2=m;
-}
+
 void draw() {  
-if(dance2!=null){
-//image(dance2,0,0);
 
-  //not sure if i will draw the image or not
-  pushMatrix();  
-  translate(width/2, 3*height/4); //translating to screen because text starts at 0,0
-  noFill();
-  //draw text
-  //grp.draw();  
-  popMatrix();
-
-  //rect(width/2,height/2,60,60);
-  for (int m=0; m<500; m++) {  //500 needs to be replaced with a variable
+  //draw and update particles
+  for (int m=0; m<maxPar; m++) { 
     par[m].update();
     par[m].display();
   }
-}
 }
