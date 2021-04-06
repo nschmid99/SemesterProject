@@ -46,79 +46,80 @@ class Particle {
 
     if (points != null) {  //if points exist
      
-     //temp point at position of text        
+     //temp point at position of text  
+    
       RPoint temp = new RPoint(this.position.x-width/10, this.position.y-height/2); 
-      for (int q=0; q<grp.countChildren(); q++) {  //count children insisde text
+      for (int q=0; q<letter.countChildren(); q++) {  //count children insisde text
         //println();
-        if (grp.children[q].contains(temp)) {
+        if (letter.children[q].contains(temp)) {
           fill(255);
-        }
+        }}
       }
       
-     temp = new RPoint(this.position.x-width*3/10, this.position.y-height/2);  
-      for (int q=0; q<grpo.countChildren(); q++) {  //count children insisde text
-        //println();
-        if (grpo.children[q].contains(temp)) {
-          fill(255);
-        }
-      }
+    // temp = new RPoint(this.position.x-width*3/10, this.position.y-height/2);  
+    //  for (int q=0; q<grpo.countChildren(); q++) {  //count children insisde text
+    //    //println();
+    //    if (grpo.children[q].contains(temp)) {
+    //      fill(255);
+    //    }
+    //  }
       
-      temp = new RPoint(this.position.x-width*5/10, this.position.y-height/2);  
-      for (int q=0; q<grpu.countChildren(); q++) {  //count children insisde text
-        //println();
-        if (grpu.children[q].contains(temp)) {
-          fill(255);
-        }
-      }
+    //  temp = new RPoint(this.position.x-width*5/10, this.position.y-height/2);  
+    //  for (int q=0; q<grpu.countChildren(); q++) {  //count children insisde text
+    //    //println();
+    //    if (grpu.children[q].contains(temp)) {
+    //      fill(255);
+    //    }
+    //  }
       
-       temp = new RPoint(this.position.x-width*7/10, this.position.y-height/2);  
-      for (int q=0; q<grpn.countChildren(); q++) {  //count children insisde text
-        //println();
-        if (grpn.children[q].contains(temp)) {
-          fill(255);
-        }
-      }
+    //   temp = new RPoint(this.position.x-width*7/10, this.position.y-height/2);  
+    //  for (int q=0; q<grpn.countChildren(); q++) {  //count children insisde text
+    //    //println();
+    //    if (grpn.children[q].contains(temp)) {
+    //      fill(255);
+    //    }
+    //  }
       
-       temp = new RPoint(this.position.x-width*9/10, this.position.y-height/2);  
-      for (int q=0; q<grpd.countChildren(); q++) {  //count children insisde text
-        //println();
-        if (grpd.children[q].contains(temp)) {
-          fill(255);
-        }
-      }
+    //   temp = new RPoint(this.position.x-width*9/10, this.position.y-height/2);  
+    //  for (int q=0; q<grpd.countChildren(); q++) {  //count children insisde text
+    //    //println();
+    //    if (grpd.children[q].contains(temp)) {
+    //      fill(255);
+    //    }
+    //  }
       
-       temp = new RPoint(this.position.x-width*2/10, this.position.y-height*3/4);  
-      for (int q=0; q<grpl.countChildren(); q++) {  //count children insisde text
-        //println();
-        if (grpl.children[q].contains(temp)) {
-          fill(255);
-        }
-      }
+    //   temp = new RPoint(this.position.x-width*2/10, this.position.y-height*3/4);  
+    //  for (int q=0; q<grpl.countChildren(); q++) {  //count children insisde text
+    //    //println();
+    //    if (grpl.children[q].contains(temp)) {
+    //      fill(255);
+    //    }
+    //  }
       
-      temp = new RPoint(this.position.x-width*4/10, this.position.y-height*3/4);  
-      for (int q=0; q<grpe.countChildren(); q++) {  //count children insisde text
-        //println();
-        if (grpe.children[q].contains(temp)) {
-          fill(255);
-        }
-      }
+    //  temp = new RPoint(this.position.x-width*4/10, this.position.y-height*3/4);  
+    //  for (int q=0; q<grpe.countChildren(); q++) {  //count children insisde text
+    //    //println();
+    //    if (grpe.children[q].contains(temp)) {
+    //      fill(255);
+    //    }
+    //  }
       
-      temp = new RPoint(this.position.x-width*6/10, this.position.y-height*3/4);  
-      for (int q=0; q<grps.countChildren(); q++) {  //count children insisde text
-        //println();
-        if (grps.children[q].contains(temp)) {
-          fill(255);
-        }
-      }
+    //  temp = new RPoint(this.position.x-width*6/10, this.position.y-height*3/4);  
+    //  for (int q=0; q<grps.countChildren(); q++) {  //count children insisde text
+    //    //println();
+    //    if (grps.children[q].contains(temp)) {
+    //      fill(255);
+    //    }
+    //  }
       
-      temp = new RPoint(this.position.x-width*8/10, this.position.y-height*3/4);  
-      for (int q=0; q<grpss.countChildren(); q++) {  //count children insisde text
-        //println();
-        if (grpss.children[q].contains(temp)) {
-          fill(255);
-        }
-      }
-    }
+    //  temp = new RPoint(this.position.x-width*8/10, this.position.y-height*3/4);  
+    //  for (int q=0; q<grpss.countChildren(); q++) {  //count children insisde text
+    //    //println();
+    //    if (grpss.children[q].contains(temp)) {
+    //      fill(255);
+    //    }
+    //  }
+    //}
   }
   
   void directflow(){
