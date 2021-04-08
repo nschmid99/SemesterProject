@@ -1,8 +1,8 @@
-import geomerative.*;
 RShape letter;
 int posit=350;
 RPoint[] points;
 boolean ignoringStyles = false;
+
 class Letters {
 
   Letters(String l) { 
