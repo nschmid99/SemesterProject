@@ -17,8 +17,8 @@ int maxPar=1400;
 
 void setup() {
 
-  fullScreen();
-// size(1200,1200);
+ // fullScreen();
+ size(1200,1200);
   dance = loadImage("collage2.jpg");  //creates image
   stroke(0);
 
@@ -29,7 +29,7 @@ void setup() {
 
   //init geomerative objects
   RG.init(this);
-  b=new Letters("boundless");
+  b=new Letters("b");
   
 
   // Enable smoothing

@@ -3,6 +3,7 @@ int posit=350;
 RPoint[] points;
 boolean ignoringStyles = false;
 
+
 class Letters {
 
   Letters(String l) { 
@@ -20,7 +21,9 @@ class Letters {
     RG.setPolygonizer(RG.UNIFORMLENGTH);
     RG.setPolygonizerLength(10); //makes longer
     points = letter.getPoints();
+  //  rect(topLeft.x, topLeft.y, bottomRight.x - topLeft.x, bottomRight.y - topLeft.y);
   }
+
 
   void display(int x, int y) {
     RG.shape(letter, x, y, posit, posit);
