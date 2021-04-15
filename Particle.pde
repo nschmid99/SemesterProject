@@ -31,7 +31,7 @@ class Particle {
     noStroke();
     color c = dance.get((int)(dance.width/ 2 + this.position.x - width/2), (int)(dance.height /2 + this.position.y - height/2));
     fill(c);
-    //contains();
+    contains();
     ellipse(this.position.x, this.position.y, 2, 5);
   }
 
@@ -61,7 +61,7 @@ this.position.y=lerp(this.position.y, s,0.1);}
      
      //temp point at position of text  
     
-      RPoint temp = new RPoint(this.position.x-width/2, this.position.y-height/2); 
+      RPoint temp = new RPoint(this.position.x-width/10, this.position.y-height/2); 
       for (int q=0; q<letter.countChildren(); q++) {  //count children insisde text
      
         if (letter.children[q].contains(temp)) {
