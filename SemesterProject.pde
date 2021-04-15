@@ -1,56 +1,57 @@
 
-
 //Natasha Schmid CRCP 4391
 //Semester Final Project
 //taking dance imagery and manipulating pixels so that they create letterforms
-import shiffman.box2d.*;
-import org.jbox2d.collision.shapes.*;
-import org.jbox2d.common.*;
-import org.jbox2d.dynamics.*;
-import org.jbox2d.dynamics.*;
-import geomerative.*;
+//in particle class the exists and init functions are drawn from an example in the geomerative library by Richard Marxer
 
+int max = 1400; // the maximum number of active particles
+ArrayList <Particle> particles = new ArrayList <Particle> (); // the list of particles
+float globalRotation;
+PImage text;
 PImage dance;
-Letters b;
-BodyDef bd = new BodyDef();
-
-Particle [] par=new Particle[1400];
-float rotation;
-int posShape=350;
-int maxPar=1400;
-
-
+int state;
 
 void setup() {
-
-  fullScreen();
-// size(1200,1200);
-  dance = loadImage("collage2.jpg");  //creates image
-  stroke(0);
-
-  //setup particles
-  for (int m=0; m<maxPar; m++) {
-    par[m]=new Particle();
-  }
-
-  //init geomerative objects
-  RG.init(this);
-  b=new Letters("b");
-  b.display(200,200);
-
-  // Enable smoothing
-  smooth();
-
-  //clear background
-  background(255);
+  size(1500, 938);
+  smooth(); 
+  dance = loadImage("collage2.jpg"); 
+  text=loadImage("text.png");
 }
 
+void draw() {
 
-void draw() {  
+  kill();// gets rid of particles with no life
+  while (particles.size () < max) {
+    particles.add(new Particle());  //keeps adding more particles 
+  }
 
-  //draw and update particles
-  for (int m=0; m<maxPar; m++) { 
-    par[m].update();
-    par[m].display();
+  for (Particle p : particles) {
+    p.display();  //displays particles
+
+    switch(state) {
+    case 0:
+      p.update(); //this update has no life so the particles just draw and then delete
+      break;
+    case 1:
+      p.update2();  //this update does have life so the particles flow into perlin noise
+      break;
+    }
+  }
+}
+
+void keyPressed() {
+  if (key=='g') {
+    state=0;  //state with no life
+  } else if (key=='h') {
+    state=1;  //state with life
+  }
+}
+
+void kill() {
+  for (int i=particles.size()-1; i>=0; i--) {  //start from end and cycle through to delete
+    Particle p = particles.get(i);
+    if (p.life <= 0) {
+      particles.remove(i);
+    }
   }
 }
