@@ -4,7 +4,7 @@ class Particle {
   float inc;
   float life;
   float opacity;
-  float speed=1.5;
+  float speed=2;
 
   Particle() {
     init();
@@ -27,7 +27,7 @@ class Particle {
     position.add(vel);
     vel.mult(speed);  //mult to make faster
   }
-
+//parametric equationn for circle see if spiral noise
 
   void display() {
     //get color from pimage
