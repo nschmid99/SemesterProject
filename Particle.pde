@@ -4,11 +4,11 @@ class Particle {
   float inc;
   float life;
   float opacity;
-  float speed=2;
+  float speed=200;
 
   Particle() {
     init();
-    life = random(0.75, 1.25);
+    life = random(0.5, 1);
     opacity=30;
   }
 
@@ -19,23 +19,29 @@ class Particle {
   }
 
   void update2() {
-    float rot=random(-TWO_PI, TWO_PI);  
+    float rot=random(-TWO_PI,TWO_PI);  
     float ang=noise(this.position.x*0.003, this.position.y*0.006, inc) *rot;  //noise function
     inc=inc+0.001;
     noStroke();
     PVector vel = new PVector(cos(ang), sin(ang));
     position.add(vel);
     vel.mult(speed);  //mult to make faster
+    
+    life=life-0.001;  //slowly kill off particles
+    rot=random(-TWO_PI,TWO_PI);  
   }
 //parametric equationn for circle see if spiral noise
 
   void display() {
     //get color from pimage
-    color c = dance.get((int)(dance.width/ 2 + this.position.x - width/2), (int)(dance.height /2 + this.position.y - height/2));
+    color c = ref.get((int)(ref.width/ 2 + this.position.x - width/2), (int)(ref.height /2 + this.position.y - height/2));
     if (state==0) {
       fill(c, opacity);  //lower opacity for cloud effect
     }
     if (state==1) {
+      fill(c, opacity=opacity+0.5); //increase opacity
+    }
+    if (state==2) {
       fill(c, opacity=opacity+0.5); //increase opacity
     }
     ellipse(position.x, position.y, 2, 3);  //oval shape
@@ -43,7 +49,15 @@ class Particle {
 
 
   void init() {  //picks random position in text
-    while (position == null || !exists (position)) position = new PVector(random(width), random(height));
+  
+  if(state==0 || state==1){
+    while (position == null || !exists (position)) position = new PVector(random(-20,width), random(-20,height));
+  }
+  else if(state==2){
+  position = new PVector(random(-20,width), random(-20,height));
+  noStroke();
+  }
+
   }
 
 
