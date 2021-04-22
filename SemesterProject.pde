@@ -4,12 +4,10 @@
 //taking dance imagery and manipulating pixels so that they create letterforms
 //in particle class the exists and init functions are drawn from an example in the geomerative library by Richard Marxer
 
-//how do I import in video to this?
 int max = 8000; // the maximum number of active particles
 ArrayList <Particle> particles = new ArrayList <Particle> (); // the list of particles
 float globalRotation;
 PImage text;
-//PImage dance;
 int state;
 int frms = 26;
 PImage ref; 
@@ -18,11 +16,10 @@ PImage[] dance = new PImage[frms];
 void setup() {
   size(1500, 938);
   background(255);
-  smooth(); 
-  //dance = loadImage("collage2.jpg"); 
+  smooth();  
   text=loadImage("text.png");
   
-  for (int i = 0; i < frms; ++i) {
+  for (int i = 0; i < frms; ++i) {  //cycle through images and save them as the reference
     dance[i] = loadImage("ezgif-frame-0" + i + ".jpg");
   }
   ref = dance[0];
@@ -34,7 +31,7 @@ void draw() {
   while (particles.size () < max) {
     particles.add(new Particle());  //keeps adding more particles 
   }
-  if (frameCount % 20 == 0) {
+  if (frameCount % 20 == 0) {  //when to chage frames
     int count = (frameCount/20 % frms);
     ref = dance[count];}
 
@@ -54,7 +51,7 @@ void draw() {
    
     case 2:
         p.display();
-      p.update2();  //this update does have life so the particles flow into perlin noise
+      p.update2();  //this update does have life and the particles appear at  random positions all over the screen
       break;
     }
   }

@@ -8,7 +8,7 @@ class Particle {
 
   Particle() {
     init();
-    life = random(0.5, 1);
+    life = random(0.75, 1);
     opacity=30;
   }
 
@@ -19,7 +19,7 @@ class Particle {
   }
 
   void update2() {
-    float rot=random(-TWO_PI,TWO_PI);  
+    float rot=random(-TWO_PI,TWO_PI); //randomly choses rotation so that particles all go in different directions 
     float ang=noise(this.position.x*0.003, this.position.y*0.006, inc) *rot;  //noise function
     inc=inc+0.001;
     noStroke();
@@ -53,7 +53,7 @@ class Particle {
   if(state==0 || state==1){
     while (position == null || !exists (position)) position = new PVector(random(-20,width), random(-20,height));
   }
-  else if(state==2){
+  else if(state==2){  //just get position from anywhere on screen
   position = new PVector(random(-20,width), random(-20,height));
   noStroke();
   }
